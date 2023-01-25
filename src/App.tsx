@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { Button } from './components/Button';
 import { ImageWithLoader } from './components/ImageWithLoader';
-import { api } from './services/axios.service';
+import { api } from './services/api.service';
 
 type Response = {
   status: string;
