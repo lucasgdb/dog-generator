@@ -1,9 +1,9 @@
-import { useState, useReducer } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Button } from './components/Button';
 import { ImageWithLoader } from './components/ImageWithLoader';
-import { type Dog, dogReducer, DogActionTypeEnum } from './reducers/dog.reducer';
+import { useDogs } from './hooks/useDogs';
 import { api } from './services/api.service';
 
 type Response = {
@@ -12,16 +12,9 @@ type Response = {
 };
 
 function App() {
-  const [dogs, dispatch] = useReducer(dogReducer, []);
-
   const [loading, setLoading] = useState(false);
 
-  function addDog(dog: Dog) {
-    dispatch({
-      type: DogActionTypeEnum.ADDED,
-      payload: dog,
-    });
-  }
+  const { addDog, dogs } = useDogs();
 
   async function generateRandomDog() {
     try {
