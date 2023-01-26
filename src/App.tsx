@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Button } from './components/Button';
 import { ImageWithLoader } from './components/ImageWithLoader';
-import { useDogs } from './hooks/useDogs';
+import { type Dog, DogActionTypeEnum, dogReducer } from './reducers/dog.reducer';
 import { api } from './services/api.service';
 
 type Response = {
@@ -14,18 +14,33 @@ type Response = {
 function App() {
   const [loading, setLoading] = useState(false);
 
-  const { addDog, dogs } = useDogs();
+  const [dogs, dispatch] = useReducer(dogReducer, []);
+
+  async function getRandomDog() {
+    const response = await api.get<Response>('/breeds/image/random');
+
+    const dog: Dog = {
+      id: self.crypto.randomUUID(),
+      url: response.data.message,
+    };
+
+    return dog;
+  }
+
+  function addDog(dog: Dog) {
+    dispatch({
+      type: DogActionTypeEnum.ADDED,
+      payload: dog,
+    });
+  }
 
   async function generateRandomDog() {
     try {
       setLoading(true);
 
-      const response = await api.get<Response>('/breeds/image/random');
+      const dog = await getRandomDog();
 
-      addDog({
-        id: self.crypto.randomUUID(),
-        url: response.data.message,
-      });
+      addDog(dog);
     } catch (err) {
       console.error(err);
       toast.error('Houve um erro. Tente novamente!');
