@@ -59,7 +59,9 @@ function App() {
 
       <div className="flex flex-wrap gap-4 mt-4">
         {dogs.map((dog) => (
-          <ImageWithLoader key={dog.id} src={dog.url} className="rounded w-52 h-52" />
+          <div key={dog.id} className="w-52 h-52">
+            <ImageWithLoader src={dog.url} className="rounded w-full h-full" />
+          </div>
         ))}
       </div>
     </main>

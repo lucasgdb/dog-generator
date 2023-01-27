@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { clsx } from 'clsx';
 import mediumZoom from 'medium-zoom';
+
 import { Spinner } from './Spinner';
 
 declare global {
@@ -47,14 +47,14 @@ export function ImageWithLoader(props: React.ImgHTMLAttributes<HTMLImageElement>
     return () => observer.disconnect();
   }, []);
 
-  const handleLoad = () => {
+  function handleLoad() {
     setHidden(false);
-  };
+  }
 
   return (
     <>
       {hidden && (
-        <div className={clsx('flex justify-center items-center', props.className)}>
+        <div className="flex justify-center items-center w-full h-full">
           <Spinner />
         </div>
       )}
